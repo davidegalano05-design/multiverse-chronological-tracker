@@ -1,27 +1,27 @@
 # 🌌 Multiverse Chronological Tracker
 
-Un database relazionale progettato in **PostgreSQL** per gestire e orchestrare complessi ordini di visione (rewatch) attraverso molteplici continuità narrative, universi cinematografici e media cartacei.
+A relational database designed in **PostgreSQL** to manage and orchestrate complex viewing orders (rewatches) across multiple narrative continuities, cinematic universes, and print media.
 
-## 🎯 Obiettivo del Progetto
-Questo progetto nasce per risolvere una problematica classica della gestione dei dati: l'incoerenza tra la data di rilascio reale di un'opera e la sua collocazione temporale all'interno di una complessa narrativa espansa (es. Marvel Cinematic Universe, Fox X-Men Universe, DC Comics). 
+## 🎯 Project Objective
+This project was born to solve a classic data management problem: the inconsistency between the actual release date of a work and its chronological placement within a complex expanded narrative (e.g., Marvel Cinematic Universe, Fox X-Men Universe, DC Comics). 
 
-L'architettura permette di estrarre in tempo reale una timeline di visione coerente, gestendo salti temporali, crossover tra universi e formati multimediali differenti.
+The architecture allows for the real-time extraction of a coherent viewing timeline, handling time jumps, cross-universe crossovers, and different multimedia formats.
 
-## 🏗️ Architettura e Schema Relazionale
-Il database è stato normalizzato e diviso in entità distinte per garantire scalabilità e integrità dei dati:
+## 🏗️ Architecture and Relational Schema
+The database has been normalized and divided into distinct entities to ensure scalability and data integrity:
 
-- **Universes**: Anagrafica delle varie continuità (es. *Terra-616*, *Terra-10005*).
-- **Media_Entities**: Catalogo centralizzato che ospita Film, Serie TV, Cortometraggi e Fumetti.
-- **Characters**: Anagrafica dei personaggi e delle identità segrete.
-- **Timeline_Order**: Tabella ponte che assegna un media al suo universo di competenza, fornendogli una coordinata temporale esatta (`chronological_position`).
-- **Media_Characters (Many-to-Many)**: Tabella relazionale pura per tracciare le apparizioni multiple dei personaggi attraverso media diversi.
-- **Watch_Logs**: Sistema di tracciamento personale per registrare i progressi di rewatch e i voti.
+- **Universes**: Registry of various continuities (e.g., *Earth-616*, *Earth-10005*).
+- **Media_Entities**: Centralized catalog hosting Movies, TV Series, Short Films, and Comics.
+- **Characters**: Registry of characters and their secret identities.
+- **Timeline_Order**: Bridge table that assigns media to its respective universe, providing an exact temporal coordinate (`chronological_position`).
+- **Media_Characters (Many-to-Many)**: Pure relational table to track multiple character appearances across different media.
+- **Watch_Logs**: Personal tracking system to record rewatch progress and ratings.
 
-## ⚙️ Business Logic e PL/pgSQL
-Oltre alla struttura relazionale (DDL) e all'inserimento dati (DML), il progetto implementa logica lato database utilizzando **PL/pgSQL**:
+## ⚙️ Business Logic and PL/pgSQL
+Beyond the relational structure (DDL) and data insertion (DML), the project implements server-side logic using **PL/pgSQL**:
 
-- **Viste (Views)**: Implementazione di `v_multiverse_timeline` per astrarre query complesse con JOIN multiple, offrendo al client una tabella virtuale già pronta e formattata con l'ordine di visione perfetto.
-- **Trigger e Funzioni**: Implementazione di un trigger `BEFORE INSERT OR UPDATE` sulla tabella dei log. Una funzione PL/pgSQL (`check_valid_watch_log()`) convalida autonomamente il rating inserito, correggendo i valori nulli e bloccando tramite eccezioni (`RAISE EXCEPTION`) i voti fuori scala.
+- **Views**: Implementation of `v_multiverse_timeline` to abstract complex queries with multiple JOINs, offering the client a ready-made, formatted virtual table with the perfect viewing order.
+- **Triggers and Functions**: Implementation of a `BEFORE INSERT OR UPDATE` trigger on the log table. A PL/pgSQL function (`check_valid_watch_log()`) autonomously validates the inserted rating, correcting null values and blocking out-of-scale ratings via exceptions (`RAISE EXCEPTION`).
 
 ## 🛠️ Tech Stack
 - **Database Engine**: PostgreSQL
@@ -29,4 +29,4 @@ Oltre alla struttura relazionale (DDL) e all'inserimento dati (DML), il progetto
 - **Query Language**: SQL / PL/pgSQL
 
 ---
-*Progetto sviluppato come caso studio pratico per l'esplorazione della Data Engineering e della progettazione di database relazionali robusti.*
+*Project developed as a practical case study for exploring Data Engineering and the design of robust relational databases.*
